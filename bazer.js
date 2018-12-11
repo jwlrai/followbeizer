@@ -1,15 +1,15 @@
 var FollowBeizer = function(options){
+
     this.parent              = options.parent            || null;
-    this.text                = options.text              || null;
-    
+    this.text                = options.text              || null;    
     this.control_points      = options.control_points    || null;
     
     this.aniDelay            = options.aniDelay          || 20;
     this.charDelay           = options.charDelay         || 300;
-    this.end_text_align      = options.end_text_align    || null;
-    this.final_font          = options.final_font        || null;
+    this.end_text_align      = options.end_text_align    || 'inline';
+    this.final_font          = options.final_font        || 20;
     this.spaceSize           = options.spaceSize         || 12;// sizes of space character
-    this.charSpace           = options.charSpace || 0,
+    this.charSpace           = options.charSpace         || 0;
 
     this.font_increment      = 0;
     this.no_cordinates       = 100;
@@ -20,22 +20,6 @@ var FollowBeizer = function(options){
     this.real_con_point      = [];
     this.charWidth           = [];
    
-
-// console.log(this.obj);
-// if(!(this.obj.control_points instanceof Array) || this.obj.control_points.length < 2 ){
-//     return 'invalid control points';
-// }
-// if(!(this.obj.end_points instanceof Array) || obj.end_points.length == 0 ){
-//     return 'invalid end points';
-// }
-// if(typeof(this.obj.move) !== "number"){
-//     return 'invalid move value';
-// }
-// if(typeof(obj.end_text_align) !== "string" && !(obj.end_text_align instanceof Array)){
-//     return 'invalid end_text_align value';
-// }
-// obj.start_point        = obj.control_points[0];
-// obj.no_control_points  = obj.ontrol_points.lecngth;
 }
 FollowBeizer.prototype.prepareTxt = function(){
 var txt = Array.from(this.text);   
@@ -105,6 +89,29 @@ for(j=0; j < this.real_con_point.length;j++){
 }
 this.moveDelay(ele.children,0,this.beizer_points.length,1);
 }
+
+// polynominals calculation
+FollowBeizer.ponlynominals = function (t,n,i){
+
+    var bio = Math.pow(t,i) * Math.pow((1-t),(n-i));
+    var fac =  this.factor(n) / (this.factor(i) * this.factor(n-i)) ;
+
+    return bio* fac;
+    
+}
+// factor calculation
+FollowBeizer.factor = function (number){
+
+    var fact = 1;
+    if(number > 1){
+        for(var i=number; i >1; i--){
+            fact = fact * i;
+        }
+    }
+    return fact;
+}
+
+
 FollowBeizer.prototype.anim = function(ele,points,incre,aniPos){
 
 
