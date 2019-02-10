@@ -2,5 +2,7 @@
 
 ```
 
-![](./demo/inline.gif)
+
 ```
+
+![](./demo/inline.gif)
